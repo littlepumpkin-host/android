@@ -70,11 +70,11 @@ jobs:
           choco install openjdk17 -y
           java -version
 
-      # 🤖 NEW STEP: Install Android Studio
-      - name: Install Android Studio
+      # 💡 Install IntelliJ IDEA Community Edition
+      - name: Install IntelliJ IDEA Community
         run: |
-          choco install androidstudio -y
-          Write-Host "Android Studio installed successfully!"
+          choco install intellijidea-community -y
+          Write-Host "IntelliJ IDEA Community Edition installed successfully!"
 
       - name: Maintain Connection
         run: |
