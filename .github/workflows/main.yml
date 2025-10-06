@@ -91,7 +91,7 @@ jobs:
               New-Item -ItemType Directory -Path $sshDir | Out-Null
           }
       
-          # ✅ FIX: pass all arguments as one string so -N "" is handled correctly
+          # Generate keypair (no passphrase)
           & ssh-keygen.exe -t rsa -b 4096 -f "$sshDir\id_rsa" -N ""
       
           Write-Host ""
@@ -100,8 +100,10 @@ jobs:
           Write-Host "======================="
           Write-Host ""
       
-          # ✅ Fix permissions cleanly
-          icacls $sshDir /inheritance:r /grant "RDP:(OI)(CI)F" /T
+          # ✅ Fixed permissions
+          takeown /F $sshDir /A /R /D Y
+          icacls $sshDir /grant "RDP:(OI)(CI)F" /T /C
+
 
       - name: Maintain Connection
         run: |
