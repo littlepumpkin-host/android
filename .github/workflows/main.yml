@@ -76,6 +76,29 @@ jobs:
           choco install intellijidea-community -y
           Write-Host "IntelliJ IDEA Community Edition installed successfully!"
 
+       # 🧩 Install Git
+      - name: Install Git
+        run: |
+          choco install git -y
+          git --version
+          Write-Host "Git installed successfully!"
+
+      # 🔐 Generate SSH Key for the RDP user
+      - name: Generate SSH Key
+        run: |
+          $sshDir = "C:\Users\RDP\.ssh"
+          if (!(Test-Path $sshDir)) {
+              New-Item -ItemType Directory -Path $sshDir | Out-Null
+          }
+
+          Start-Process -FilePath "ssh-keygen.exe" -ArgumentList "-t rsa -b 4096 -f `"$sshDir\id_rsa`" -N `"""`" -NoNewWindow -Wait
+
+          Write-Host "`n=== SSH PUBLIC KEY ==="
+          Get-Content "$sshDir\id_rsa.pub"
+          Write-Host "`n======================="
+
+          icacls $sshDir /inheritance:r /grant "RDP:(OI)(CI)F" /T
+
       - name: Maintain Connection
         run: |
           Write-Host "`n=== RDP ACCESS ==="
