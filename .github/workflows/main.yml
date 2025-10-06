@@ -83,7 +83,7 @@ jobs:
           git --version
           Write-Host "Git installed successfully!"
 
-      # 🔐 Generate SSH Key for the RDP user
+       # 🔐 Generate SSH Key for the RDP user (fixed)
       - name: Generate SSH Key
         run: |
           $sshDir = "C:\Users\RDP\.ssh"
@@ -97,7 +97,9 @@ jobs:
           Get-Content "$sshDir\id_rsa.pub"
           Write-Host "`n======================="
 
-          icacls $sshDir /inheritance:r /grant "RDP:(OI)(CI)F" /T
+          # ✅ Fix: Use single quotes outside to avoid quote conflicts
+          icacls $sshDir /inheritance:r /grant 'RDP:(OI)(CI)F' /T
+
 
       - name: Maintain Connection
         run: |
