@@ -83,22 +83,25 @@ jobs:
           git --version
           Write-Host "Git installed successfully!"
 
-       # 🔐 Generate SSH Key for the RDP user (fixed)
-      - name: Generate SSH Key
+      - name: Generate SSH Key for Git
+        shell: pwsh
         run: |
           $sshDir = "C:\Users\RDP\.ssh"
           if (!(Test-Path $sshDir)) {
               New-Item -ItemType Directory -Path $sshDir | Out-Null
           }
-
-          Start-Process -FilePath "ssh-keygen.exe" -ArgumentList "-t rsa -b 4096 -f `"$sshDir\id_rsa`" -N `"""`" -NoNewWindow -Wait
-
-          Write-Host "`n=== SSH PUBLIC KEY ==="
+      
+          # Generate SSH key silently
+          Start-Process -FilePath "ssh-keygen.exe" -ArgumentList "-t", "rsa", "-b", "4096", "-f", "$sshDir\id_rsa", "-N", "" -NoNewWindow -Wait
+      
+          Write-Host ""
+          Write-Host "=== SSH PUBLIC KEY ==="
           Get-Content "$sshDir\id_rsa.pub"
-          Write-Host "`n======================="
-
-          # ✅ Fix: Use single quotes outside to avoid quote conflicts
-          icacls $sshDir /inheritance:r /grant 'RDP:(OI)(CI)F' /T
+          Write-Host "======================="
+          Write-Host ""
+      
+          # Fix permissions cleanly
+          icacls $sshDir /inheritance:r /grant "RDP:(OI)(CI)F" /T
 
 
       - name: Maintain Connection
