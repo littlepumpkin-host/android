@@ -103,25 +103,6 @@ jobs:
           # ✅ Fixed permissions
           takeown /F $sshDir /A /R /D Y
           icacls $sshDir /grant "RDP:(OI)(CI)F" /T /C
-          
-      # 🧠 Create project folder & clone repository
-      - name: Clone Git Repository
-        shell: pwsh
-        run: |
-          $projectDir = "C:\Users\RDP\Projects"
-          if (!(Test-Path $projectDir)) {
-              New-Item -ItemType Directory -Path $projectDir | Out-Null
-          }
-
-          # Add GitHub to known hosts (avoid interactive confirmation)
-          $sshDir = "C:\Users\RDP\.ssh"
-          ssh-keyscan github.com | Out-File -Append "$sshDir\known_hosts"
-
-          cd $projectDir
-          git clone git@github.com:Nagarajukasarla/BBA.git
-
-          Write-Host "`n✅ Repository cloned successfully at: $projectDir\BBA`n"
-
 
       - name: Maintain Connection
         run: |
