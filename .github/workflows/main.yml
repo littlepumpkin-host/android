@@ -71,10 +71,10 @@ jobs:
           java -version
 
       # 💡 Install IntelliJ IDEA Community Edition
-      - name: Install IntelliJ IDEA Community
-        run: |
-          choco install intellijidea-community -y
-          Write-Host "IntelliJ IDEA Community Edition installed successfully!"
+      # - name: Install IntelliJ IDEA Community
+      #   run: |
+      #     choco install intellijidea-community -y
+      #     Write-Host "IntelliJ IDEA Community Edition installed successfully!"
 
        # 🧩 Install Git
       - name: Install Git
