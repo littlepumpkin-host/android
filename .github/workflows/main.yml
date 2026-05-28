@@ -1,4 +1,4 @@
-name: RDP
+name: API-Testing
 
 on:
   workflow_dispatch:
