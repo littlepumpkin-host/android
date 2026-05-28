@@ -83,6 +83,22 @@ jobs:
           git --version
           Write-Host "Git installed successfully!"
 
+       # ⚡ Install Bun Runtime
+      - name: Install Bun Runtime
+        shell: powershell
+        run: |
+          powershell -c "irm https://bun.sh/install.ps1 | iex"
+
+          # Add Bun to PATH for current session
+          $bunPath = "$env:USERPROFILE\.bun\bin"
+          $env:PATH += ";$bunPath"
+
+          # Persist for next workflow steps
+          echo "$bunPath" >> $env:GITHUB_PATH
+
+          bun --version
+          Write-Host "Bun runtime installed successfully!"
+
       - name: Generate SSH Key for Git
         shell: pwsh
         run: |
